@@ -16,7 +16,7 @@ services:
       - db
     image: nginx:latest
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - "./src:/var/www/html"
       - "./docker/site.conf:/etc/nginx/conf.d/default.conf"
@@ -28,3 +28,13 @@ services:
       - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  phpmyadmin:
+    image: corbinu/docker-phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - 8080:80
+    environment:
+      MYSQL_USERNAME: my_user
+      MYSQL_ROOT_PASSWORD: my_password
+      MYSQL_PORT_3306_TCP_ADDR: db
